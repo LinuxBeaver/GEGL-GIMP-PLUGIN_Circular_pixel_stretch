@@ -1,8 +1,10 @@
 gegl pixel stretch
 =========
 
+Go in each folder and compile pixel-stretch, pixel-wheel, and zpolar
+the .so and dll files go in /gegl-0.4/plug-ins 
 
-
+On Linux you have the option to use the binaries.
 ## Compiling and Installing
 
 ### Linux
