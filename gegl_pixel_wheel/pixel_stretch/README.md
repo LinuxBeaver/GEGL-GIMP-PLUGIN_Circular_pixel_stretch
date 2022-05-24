@@ -1,7 +1,7 @@
-gegl:pencil
+gegl:pixel-stretch (this is part of gegl circular pixel stretch) It creates a dud filter in gegl operations
 =========
 
-A custom GEGL operation (and by extension GIMP filter) renders a basic pencil drawing
+g
 
 
 
