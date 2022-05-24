@@ -30,6 +30,13 @@ property_double (zoom, _("Zoom"), 0.0)
 property_boolean (polar, _("Circular"), TRUE)
   description    (_("Make a pixel stretch wheel"))
 
+property_int  (radius, _("Smooth to hide one pixel slit"), 1)
+  value_range (0, 6)
+  ui_range    (0, 6)
+  ui_meta     ("unit", "pixel-distance")
+  description (_("Median blur takes care of the ocasional one pixel slit"))
+
+
 
 #else
 
@@ -42,7 +49,7 @@ property_boolean (polar, _("Circular"), TRUE)
 static void attach (GeglOperation *operation)
 {
   GeglNode *gegl = operation->node;
-  GeglNode *input, *output, *zoom, *stretch, *polar;
+  GeglNode *input, *output, *zoom, *stretch, *polar, *med;
 
 
 
@@ -58,7 +65,9 @@ static void attach (GeglOperation *operation)
                                   "operation", "gegl:lens-distortion",
                                   NULL);
 
-
+   med    = gegl_node_new_child (gegl,
+                                  "operation", "gegl:median-blur",
+                                  NULL);
 
       polar = gegl_node_new_child (gegl,
                                   "operation", "gegl:zpolar-coordinates",
@@ -66,9 +75,10 @@ static void attach (GeglOperation *operation)
 
       gegl_operation_meta_redirect (operation, "zoom", zoom, "zoom");
       gegl_operation_meta_redirect (operation, "polar", polar, "activate");
+      gegl_operation_meta_redirect (operation, "radius", med, "radius");
 
 
-      gegl_node_link_many (input, zoom, stretch, polar, output, NULL);
+      gegl_node_link_many (input, zoom, stretch, polar, med, output, NULL);
 
 
 }
