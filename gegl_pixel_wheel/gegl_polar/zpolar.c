@@ -457,7 +457,7 @@ gegl_op_class_init (GeglOpClass *klass)
   gegl_operation_class_set_keys (operation_class,
     "name",               "gegl:zpolar-coordinates",
     "title",              _("z polar coordinates clone"),
-    "categories",         "",
+    "categories",         "hidden",
     "position-dependent", "true",
     "reference-hash",     "411692746705311bd29937d5d127f59b",
     "license",            "GPL3+",

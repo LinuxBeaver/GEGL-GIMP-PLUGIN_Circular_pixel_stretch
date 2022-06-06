@@ -164,7 +164,7 @@ gegl_op_class_init (GeglOpClass *klass)
   gegl_operation_class_set_keys (operation_class,
     "name",        "gegl:Zps",
     "title",       _("z-PS"),
-    "categories",  "generic",
+    "categories",  "hidden",
     "reference-hash", "29b1522f12gf4egh8a7ba97b41d8d4e",
     "description", _("Do a pixel stretch with GEGL"),
     NULL);

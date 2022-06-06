@@ -1,7 +1,7 @@
-A slightly modified copy of gegl polar-coordinates source code that solely exist to power GEGL Pixel Stretch
+high pass of box blur
 =========
 
-
+A custom GEGL operation (and by extension GIMP filter) that implements a reversal of Box Blur's algorithm to sharpen images'
 
 
 
