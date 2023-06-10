@@ -23,41 +23,38 @@
 #ifdef GEGL_PROPERTIES
 
 
-
-
 #define TUTORIAL \
 " gegl:gaussian-blur std-dev-x=1500 opacity value=10 opacity value=10  :\n"\
-
-
-
-
-
 
 
 property_string (string, _("Circular Pixel Stretch"), TUTORIAL)
     ui_meta     ("role", "output-extent")
 
-
-
-
 property_double (zoom, _("Zoom"), 0.0)
     description (_("Rescale overall image size"))
     value_range (-100, 100.0)
 
-property_boolean (polar, _("Circular"), TRUE)
-  description    (_("Make a pixel stretch wheel"))
+property_boolean (polar, _("Disable Pixel Wheel"), FALSE)
+  description    (_("Make a pixel stretch wheel or square"))
+
+
+property_double (depth, _("0 for Square - 100 for Circle"), 100.0)
+  description    (_("Square to circle transition"))
+  value_range (0.0, 100.0)
+  ui_meta     ("unit", "percent")
+  ui_meta     ("sensitive", "! polar")
+
 
 property_int  (radius, _("Smooth to hide one pixel slit"), 1)
   value_range (0, 6)
   ui_range    (0, 6)
   ui_meta     ("unit", "pixel-distance")
-  description (_("Median blur takes care of the ocasional one pixel slit"))
+  ui_meta     ("sensitive", "! polar")
+  description (_("Median blur takes care of the occasional one pixel slit"))
 
 
 
 #else
-
-
 
 #define GEGL_OP_META
 #define GEGL_OP_NAME     pixel_wheel
@@ -109,6 +106,7 @@ static void attach (GeglOperation *operation)
       gegl_operation_meta_redirect (operation, "zoom", zoom, "zoom");
       gegl_operation_meta_redirect (operation, "polar", polar, "activate");
       gegl_operation_meta_redirect (operation, "radius", med, "radius");
+      gegl_operation_meta_redirect (operation, "depth", polar, "depth");
 
 
       gegl_node_link_many (input, zoom, stretch, /* polar, */ med, output, NULL);
@@ -137,11 +135,11 @@ update_graph (GeglOperation *operation)
 
   if (o->polar)
   {
-    gegl_node_link_many (state->zoom, state->stretch, state->polar, state->med, state->output, NULL);
+    gegl_node_link_many (state->zoom, state->stretch, state->med, state->output, NULL);
   }
   else
   {
-    gegl_node_link_many (state->zoom, state->stretch, state->med, state->output, NULL);
+    gegl_node_link_many (state->zoom, state->stretch, state->polar, state->med, state->output, NULL);
   }
 }
 
