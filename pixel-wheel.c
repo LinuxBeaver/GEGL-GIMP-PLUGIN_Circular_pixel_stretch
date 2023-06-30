@@ -17,6 +17,16 @@
  * Beaver Pixel Stretch
  */
 
+/* 
+Recreation of GEGL Graph from late 2021 early 2022 graph. If you put this syntax
+in Gimp's GEGL graph you can test the filter without installing it.
+
+gegl:gaussian-blur std-dev-x=1500
+gegl:opacity value=10.00
+gegl:opacity value=10.00
+polar-coordinates
+ */
+
 #include "config.h"
 #include <glib/gi18n-lib.h>
 
@@ -27,14 +37,12 @@
 " gegl:gaussian-blur std-dev-x=1500 opacity value=10 opacity value=10  :\n"\
 
 
-property_string (string, _("Circular Pixel Stretch"), TUTORIAL)
-    ui_meta     ("role", "output-extent")
 
 property_double (zoom, _("Zoom"), 0.0)
     description (_("Rescale overall image size"))
     value_range (-100, 100.0)
 
-property_boolean (polar, _("Disable Pixel Wheel"), FALSE)
+property_boolean (disablepolar, _("Normal Pixel Stretch"), FALSE)
   description    (_("Make a pixel stretch wheel or square"))
 
 
@@ -87,7 +95,7 @@ static void attach (GeglOperation *operation)
   output   = gegl_node_get_output_proxy (gegl, "output");
 
   stretch    = gegl_node_new_child (gegl,
-                                  "operation", "gegl:gegl",
+                                  "operation", "gegl:gegl", "string", TUTORIAL,
                                   NULL);
 
 
@@ -133,7 +141,7 @@ update_graph (GeglOperation *operation)
   State *state = o->user_data;
   if (!state) return;
 
-  if (o->polar)
+  if (o->disablepolar)
   {
     gegl_node_link_many (state->zoom, state->stretch, state->med, state->output, NULL);
   }
@@ -154,7 +162,7 @@ gegl_op_class_init (GeglOpClass *klass)
   operation_meta_class->update = update_graph;
 
   gegl_operation_class_set_keys (operation_class,
-    "name",        "gegl:pixel-wheel",
+    "name",        "lb:pixel-wheel",
     "title",       _("Circular Pixel Stretch"),
     "categories",  "Artistic",
     "reference-hash", "2ah15656a238a5112010dc2544142af",
