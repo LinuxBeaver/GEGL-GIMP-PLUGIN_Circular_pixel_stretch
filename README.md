@@ -1,10 +1,8 @@
 gegl pixel stretch
 =========
+Gimp Plugin to make a Pixel Stretch effect
 
-Go in each folder and compile pixel-stretch, pixel-wheel, and zpolar
-the .so and dll files go in /gegl-0.4/plug-ins 
-
-On Linux you have the option to use the binaries.
+![image](preview_pixel_wheel.png)
 
 
 
