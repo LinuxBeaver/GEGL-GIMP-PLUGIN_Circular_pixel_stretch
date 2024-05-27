@@ -17,7 +17,7 @@
  * Beaver Pixel Stretch
  */
 
-/* 
+/*
 Recreation of GEGL Graph from late 2021 early 2022 graph. If you put this syntax
 in Gimp's GEGL graph you can test the filter without installing it.
 
@@ -50,14 +50,14 @@ property_double (depth, _("0 for Square - 100 for Circle"), 100.0)
   description    (_("Square to circle transition"))
   value_range (0.0, 100.0)
   ui_meta     ("unit", "percent")
-  ui_meta     ("sensitive", "! polar")
+  ui_meta     ("sensitive", "! disablepolar")
 
 
 property_int  (radius, _("Smooth to hide one pixel slit"), 1)
   value_range (0, 6)
   ui_range    (0, 6)
   ui_meta     ("unit", "pixel-distance")
-  ui_meta     ("sensitive", "! polar")
+  ui_meta     ("sensitive", "! disablepolar")
   description (_("Median blur takes care of the occasional one pixel slit"))
 
 
@@ -79,7 +79,7 @@ typedef struct
   GeglNode *polar;
   GeglNode *med;
   GeglNode *output;
-} State; 
+} State;
 
 
 
@@ -110,9 +110,8 @@ static void attach (GeglOperation *operation)
       polar = gegl_node_new_child (gegl,
                                   "operation", "gegl:polar-coordinates",
                                   NULL);
-      gegl_operation_meta_redirect (operation, "string", stretch, "string");
+
       gegl_operation_meta_redirect (operation, "zoom", zoom, "zoom");
-      gegl_operation_meta_redirect (operation, "polar", polar, "activate");
       gegl_operation_meta_redirect (operation, "radius", med, "radius");
       gegl_operation_meta_redirect (operation, "depth", polar, "depth");
 
@@ -166,7 +165,7 @@ gegl_op_class_init (GeglOpClass *klass)
     "title",       _("Circular Pixel Stretch"),
     "categories",  "Artistic",
     "reference-hash", "2ah15656a238a5112010dc2544142af",
-    "description", _("GEGL makes a circular pixel stretch effect "
+    "description", _("Make a circular pixel stretch effect "
                      ""),
     NULL);
 }
