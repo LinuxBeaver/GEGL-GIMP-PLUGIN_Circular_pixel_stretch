@@ -19,7 +19,7 @@
 
 /*
 Recreation of GEGL Graph from late 2021 early 2022 graph. If you put this syntax
-in Gimp's GEGL graph you can test the filter without installing it.
+in Gimpꞌs GEGL graph you can test the filter without installing it.
 
 gegl:gaussian-blur std-dev-x=1500
 gegl:opacity value=10.00
